@@ -6,7 +6,7 @@ phases:
     - aws --version
     - $(aws ecr get-login --no-include-email --region ap-south-1)
     - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-    - IMAGE_TAG=${COMMIT_HASH:=latest}
+    - IMAGE_TAG=latest
     - APPLICATION_NAME=spring-boot-sample-app
     - REPOSITORY_URI=537785877394.dkr.ecr.ap-south-1.amazonaws.com/$APPLICATION_NAME
   build: 
