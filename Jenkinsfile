@@ -3,8 +3,8 @@ pipeline {
 
   environment {
     DOCKERHUB_CREDENTIALS = credentials('pradeep-kalidindi')
-    REMOTE_SERVER = 'your-remote-server-ip'
-    REMOTE_USER = 'your-remote-server-user'            
+    REMOTE_SERVER = '15.206.153.214'
+    REMOTE_USER = 'ec2-user'            
   }
 
   // Fetch code from GitHub
@@ -12,7 +12,7 @@ pipeline {
   stages {
     stage('checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/pradeep-kalidindi/spring-boot-sample-app'
+        git branch: 'main', url: 'https://github.com/pradeep-kalidindi/spring-boot-sample-app.git'
 
       }
     }
