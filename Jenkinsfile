@@ -87,7 +87,7 @@ pipeline {
 
    // Pull docker image from DockerHub and run in EC2 instance 
 
-    stage('Dev Environment) {
+    stage('Dev Environment') {
       steps {
         script {
           sshagent(credentials: ['awscred']) {
