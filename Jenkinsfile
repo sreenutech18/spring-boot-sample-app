@@ -1,6 +1,9 @@
 pipeline {
   agent any
-
+  tools { 
+      maven 'Maven 3.3.9' 
+      jdk 'jdk8' 
+  }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
     REMOTE_SERVER = '15.206.153.214'
@@ -10,7 +13,7 @@ pipeline {
   // Fetch code from GitHub
 
   stages {
-    stage('checkout') {
+    stage('Code Checkout') {
       steps {
         git branch: 'main', url: 'https://github.com/pradeep-kalidindi/spring-boot-sample-app.git'
 
