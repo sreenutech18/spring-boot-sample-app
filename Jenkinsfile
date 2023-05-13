@@ -2,9 +2,7 @@ pipeline {
   agent any
   tools { 
       maven 'M2_HOME' 
-      jdk 'JAVA_HOME' 
-      def dockerHome = tool 'docker'
-      env.PATH = "${dockerHome}/bin:${env.PATH}"
+      jdk 'JAVA_HOME'
   }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker_credentials')
@@ -16,6 +14,8 @@ pipeline {
 
   stages {
     stage ('Initialize') {
+      def dockerHome = tool 'docker'
+      env.PATH = "${dockerHome}/bin:${env.PATH}"
       steps {
           sh '''
               echo "PATH = ${PATH}"
