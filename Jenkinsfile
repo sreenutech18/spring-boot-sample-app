@@ -13,6 +13,14 @@ pipeline {
   // Fetch code from GitHub
 
   stages {
+    stage ('Initialize') {
+      steps {
+          sh '''
+              echo "PATH = ${PATH}"
+              echo "M2_HOME = ${M2_HOME}"
+          ''' 
+      }
+    }
     stage('Code Checkout') {
       steps {
         git branch: 'main', url: 'https://github.com/pradeep-kalidindi/spring-boot-sample-app.git'
