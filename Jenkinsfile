@@ -87,13 +87,25 @@ pipeline {
 
    // Pull docker image from DockerHub and run in EC2 instance 
 
-    stage('Deploy Docker image to DEV EC2') {
+    stage('Dev Environment) {
       steps {
         script {
           sshagent(credentials: ['awscred']) {
           sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop javawebapp || true && docker rm javawebapp || true'"
       sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/javawebapp'"
           sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name javawebapp -d -p 8081:8081 sreenivas18/javawebapp'"
+          }
+        }
+      }
+    }
+    // Pull docker image from DockerHub and run in stage EC2 instance 
+      stage('Test Environment') {
+      steps {
+        script {
+          sshagent(credentials: ['awscred']) {
+          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop javawebapp || true && docker rm javawebapp || true'"
+      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/javawebapp'"
+          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name javawebapp -d -p 8082:8081 sreenivas18/javawebapp'"
           }
         }
       }
