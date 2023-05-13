@@ -55,7 +55,7 @@ pipeline {
     stage("build & SonarQube analysis") {
 	    steps {
 		    withSonarQubeEnv('sonarqubeserver') {
-			      sh 'mvn clean package sonar:sonar'
+			      sh 'mvn sonar:sonar -Dsonar.host.url=http://65.0.71.19:9000/ -Dsonar.login=squ_c1183f3b46de647e8e6d67b92fb4bd7a773f9480'
 		        }
 	      }
       }
