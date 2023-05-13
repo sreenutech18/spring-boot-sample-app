@@ -24,9 +24,8 @@ public class PingController {
     private PingService pingService;
 
     @GetMapping("/ping")
-    public ResponseEntity<RequestInfo> ping(HttpServletRequest request) {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                pingService.getRequestInfo(request));
+    public ResponseEntity<String> ping(HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body("Welcome to Sreenu Technologies");
     }
 
 }
