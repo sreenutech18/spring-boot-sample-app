@@ -19,7 +19,7 @@ pipeline {
           sh '''
               echo "PATH = ${PATH}"
               echo "M2_HOME = ${M2_HOME}"
-              sudo service docker start
+              service docker start
               docker -v
           ''' 
       }
