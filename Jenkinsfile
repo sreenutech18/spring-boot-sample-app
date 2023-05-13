@@ -51,6 +51,14 @@ pipeline {
         sh 'mvn test'
       }
     }
+    //sonarque server
+    stage("build & SonarQube analysis") {
+	    steps {
+		    withSonarQubeEnv('sonarqubeserver') {
+			      sh 'mvn clean package sonar:sonar'
+		        }
+	      }
+      }
 
    // Build docker image in Jenkins
 
