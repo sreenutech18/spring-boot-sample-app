@@ -58,8 +58,8 @@ pipeline {
     stage('Build Docker Image') {
 
       steps {
-        sh 'docker build -t javawebapp:latest .'
-        sh 'docker tag javawebapp sreenivas18/javawebapp:latest'
+        sh 'docker build -t sreenivas18/javawebapp:latest .'
+      
       }
     }
 
