@@ -5,8 +5,8 @@ pipeline {
       jdk 'JAVA_HOME' 
   }
   environment {
-    DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
-    REMOTE_SERVER = '15.206.153.214'
+    DOCKERHUB_CREDENTIALS = credentials('docker_hub_credentials')
+    REMOTE_SERVER = '13.234.111.149'
     REMOTE_USER = 'ec2-user'            
   }
 
