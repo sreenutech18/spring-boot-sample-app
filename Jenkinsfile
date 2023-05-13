@@ -1,5 +1,9 @@
 pipeline {
   agent any
+  tools { 
+      maven 'M2_HOME' 
+      jdk 'JAVA_HOME' 
+  }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker-hub-credentials')
     REMOTE_SERVER = '15.206.153.214'
