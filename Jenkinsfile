@@ -3,6 +3,8 @@ pipeline {
   tools { 
       maven 'M2_HOME' 
       jdk 'JAVA_HOME' 
+      def dockerHome = tool 'docker'
+      env.PATH = "${dockerHome}/bin:${env.PATH}"
   }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker_credentials')
