@@ -100,13 +100,23 @@ pipeline {
     }
     // Pull docker image from DockerHub and run in stage EC2 instance 
       stage('Test Environment') {
+        
       steps {
+        def userInput = false
         script {
-          sshagent(credentials: ['awscred']) {
-          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop javawebapp || true && docker rm javawebapp || true'"
-      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/javawebapp'"
-          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name javawebapp -d -p 8082:8081 sreenivas18/javawebapp'"
-          }
+               def userInput = input(id: 'Proceed1', message: 'Promote build?', parameters: [[$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']])
+               echo 'userInput: ' + userInput
+               if(userInput == true) {
+                    sshagent(credentials: ['awscred']) {
+                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop javawebapp || true && docker rm javawebapp || true'"
+                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/javawebapp'"
+                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name javawebapp -d -p 8082:8081 sreenivas18/javawebapp'"
+                    }
+                } else {
+                    // not do action
+                 echo "Action was aborted."
+                }
+          
         }
       }
     }
