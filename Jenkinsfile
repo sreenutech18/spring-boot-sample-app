@@ -7,7 +7,7 @@ pipeline {
   }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker_hub_credentials')
-    DEV_EC2_SERVER = '43.204.32.162'
+    DEV_EC2_SERVER = '13.233.193.243'
     DEV_EC2_USER = 'ec2-user'            
   }
 
