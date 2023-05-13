@@ -7,7 +7,7 @@ pipeline {
   }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker_hub_credentials')
-    DEV_EC2_SERVER = '13.232.147.101'
+    DEV_EC2_SERVER = '13.232.53.35'
     DEV_EC2_USER = 'ec2-user'            
   }
 
@@ -59,7 +59,7 @@ pipeline {
 
       steps {
         sh 'docker build -t javawebapp:latest .'
-        sh 'docker tag javawebapp pradeepkalidindi/javawebapp:latest'
+        sh 'docker tag javawebapp sreenivas18/javawebapp:latest'
       }
     }
 
@@ -75,7 +75,7 @@ pipeline {
 
     stage('Push Image to dockerHUb') {
       steps {
-        sh 'docker push pradeepkalidindi/javawebapp:latest'
+        sh 'docker push sreenivas18/javawebapp:latest'
       }
       post {
         always {
