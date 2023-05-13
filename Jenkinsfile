@@ -99,9 +99,9 @@ pipeline {
       steps {
         script {
           sshagent(credentials: ['awscred']) {
-          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop javawebapp || true && docker rm javawebapp || true'"
+          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop javawebapp-dev || true && docker rm javawebapp-dev || true'"
       sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/javawebapp'"
-          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name javawebapp -d -p 8081:8081 sreenivas18/javawebapp'"
+          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name javawebapp-dev -d -p 8081:8081 sreenivas18/javawebapp'"
           }
         }
       }
@@ -115,9 +115,9 @@ pipeline {
                echo 'userInput: ' + userInput
                if(userInput == true) {
                     sshagent(credentials: ['awscred']) {
-                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop javawebapp || true && docker rm javawebapp || true'"
+                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop javawebapp-test || true && docker rm javawebapp-test || true'"
                       sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/javawebapp'"
-                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name javawebapp -d -p 8082:8081 sreenivas18/javawebapp'"
+                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name javawebapp-test -d -p 8082:8081 sreenivas18/javawebapp'"
                     }
                 } else {
                     // not do action
