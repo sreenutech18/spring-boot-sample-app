@@ -54,9 +54,9 @@ pipeline {
     //sonarque server
     stage("SonarQube analysis") {
 	    steps {
-		    withSonarQubeEnv('sonarqubeserver') {
-			      sh 'mvn sonar:sonar -Dsonar.host.url=http://3.110.65.191:9000/ -Dsonar.login=squ_4b698f9fdd1bc504401e5a56a3ad31836d3bce63'
-		        }
+		  
+		sh 'mvn sonar:sonar -Dsonar.host.url=http://3.110.65.191:9000/ -Dsonar.login=squ_4b698f9fdd1bc504401e5a56a3ad31836d3bce63'
+		       
 	      }
       }
 
