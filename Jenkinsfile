@@ -21,7 +21,7 @@ pipeline {
           ''' 
       }
     }
-    stage('Code Checkout') {
+    stage('Clone SoureCode') {
       steps {
         git branch: 'main', url: 'https://github.com/sreenutech18/spring-boot-sample-app.git'
 
@@ -30,7 +30,7 @@ pipeline {
 
    // Build Java application
 
-    stage('Maven Build') {
+    stage('Build') {
       steps {
         sh 'mvn clean install'
       }
@@ -46,13 +46,13 @@ pipeline {
 
   // Test Java application
 
-    stage('Maven Test') {
+    stage('Unit Test') {
       steps {
         sh 'mvn test'
       }
     }
     //sonarque server
-    stage("build & SonarQube analysis") {
+    stage("SonarQube analysis") {
 	    steps {
 		    withSonarQubeEnv('sonarqubeserver') {
 			      sh 'mvn sonar:sonar -Dsonar.host.url=http://3.110.65.191:9000/ -Dsonar.login=squ_c1183f3b46de647e8e6d67b92fb4bd7a773f9480'
@@ -62,7 +62,7 @@ pipeline {
 
    // Build docker image in Jenkins
 
-    stage('Build Docker Image') {
+    stage('Prepare Image') {
 
       steps {
         sh 'docker build -t javawebapp:latest .'
