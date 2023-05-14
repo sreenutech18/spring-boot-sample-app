@@ -39,7 +39,7 @@ public class PingService {
         requestInfo.setContextPath(request.getContextPath());
         requestInfo.setHeaders(iterateHeader(request.getHeaderNames(), request));
         requestInfo.setParameters(iterateParameter(request.getParameterNames(), request));
-        requestInfo.setAttributes(iterateAttribute(request.getAttributeNames(), request));
+       // requestInfo.setAttributes(iterateAttribute(request.getAttributeNames(), request));
         
     }
 
