@@ -6,7 +6,7 @@ pipeline {
   }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker_hub_credentials')
-    DEV_EC2_SERVER = '44.212.44.255'
+    DEV_EC2_SERVER = '35.154.219.130'
     DEV_EC2_USER = 'ec2-user'            
   }
 
@@ -55,7 +55,7 @@ pipeline {
     stage("SonarQube analysis") {
 	    steps {
 		  
-		sh 'mvn sonar:sonar -Dsonar.host.url=http://44.212.44.255:9000/ -Dsonar.login=squ_2fe457634e625adcfe390edcbe881bf29bb9a914'
+		sh 'mvn sonar:sonar -Dsonar.host.url=http://35.154.219.130:9000/ -Dsonar.login=squ_ce767160653640b087d6f6ad63167431e4529f9a'
 		       
 	      }
       }
@@ -65,8 +65,8 @@ pipeline {
     stage('Prepare Image') {
 
       steps {
-        sh 'docker build -t javawebapp:latest .'
-        sh 'docker tag javawebapp sreenivas18/javawebapp:latest'
+        sh 'docker build -t spring-boot-sample-app:latest .'
+        sh 'docker tag spring-boot-sample-app sreenivas18/spring-boot-sample-app:latest'
       
       }
     }
@@ -83,7 +83,7 @@ pipeline {
 
     stage('Push Image to dockerHUb') {
       steps {
-        sh 'docker push sreenivas18/javawebapp:latest'
+        sh 'docker push sreenivas18/spring-boot-sample-app:latest'
       }
       post {
         always {
@@ -93,20 +93,20 @@ pipeline {
 
     }
 
-   // Pull docker image from DockerHub and run in EC2 instance 
+   // Pull docker image from DockerHub and run in EC2 instance (dev environment) 
 
     stage('Dev Environment') {
       steps {
         script {
           sshagent(credentials: ['awscred']) {
-          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop javawebapp-dev || true && docker rm javawebapp-dev || true'"
-      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/javawebapp'"
-          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name javawebapp-dev -d -p 8081:8081 sreenivas18/javawebapp'"
+          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop spring-boot-sample-app-dev || true && docker rm spring-boot-sample-app-dev || true'"
+      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/spring-boot-sample-app'"
+          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name spring-boot-sample-app-dev -d -p 8081:8081 sreenivas18/spring-boot-sample-app'"
           }
         }
       }
     }
-    // Pull docker image from DockerHub and run in stage EC2 instance 
+    // Pull docker image from DockerHub and run in stage EC2 instance (test environment)
       stage('Test Environment') {
         
       steps {
@@ -115,9 +115,9 @@ pipeline {
                echo 'userInput: ' + userInput
                if(userInput == true) {
                     sshagent(credentials: ['awscred']) {
-                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop javawebapp-test || true && docker rm javawebapp-test || true'"
-                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/javawebapp'"
-                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name javawebapp-test -d -p 8082:8081 sreenivas18/javawebapp'"
+                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop spring-boot-sample-app-test || true && docker rm spring-boot-sample-app-test || true'"
+                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/spring-boot-sample-app'"
+                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name spring-boot-sample-app-test -d -p 8082:8081 sreenivas18/spring-boot-sample-app'"
                     }
                 } else {
                     // not do action
