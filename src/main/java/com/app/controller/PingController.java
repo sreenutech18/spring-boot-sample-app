@@ -21,7 +21,7 @@ public class PingController {
 
     @GetMapping("/ping/v1")
     public ResponseEntity<String> ping(HttpServletRequest request) {
-        return ResponseEntity.status(HttpStatus.OK).body("Welcome SreenuTech - Java Projects");
+        return ResponseEntity.status(HttpStatus.OK).body("Welcome To SreenuTech - For Java Projects");
     }
 
 }
