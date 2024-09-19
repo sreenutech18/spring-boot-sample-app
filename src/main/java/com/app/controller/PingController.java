@@ -19,7 +19,7 @@ public class PingController {
     @Autowired
     private PingService pingService;
 
-    @GetMapping("/ping/v1")
+    @GetMapping("/ping/v2")
     public ResponseEntity<String> ping(HttpServletRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body("******Welcome To SreenuTech - For Java Projects************");
     }
