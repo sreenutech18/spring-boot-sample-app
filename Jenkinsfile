@@ -6,7 +6,7 @@ pipeline {
   }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker_hub_credentials')
-    DEV_EC2_SERVER = '16.170.237.252'
+    DEV_EC2_SERVER = '13.48.5.188'
     DEV_EC2_USER = 'ec2-user'            
   }
 
@@ -55,7 +55,7 @@ pipeline {
     stage("SonarQube analysis") {
 	    steps {
 		  
-	sh 'mvn sonar:sonar -Dsonar.host.url=http://16.170.237.252:9000/ -Dsonar.login=squ_c29b6802dd8194d253f5bff6cb7bae78c3cd22f2'
+	sh 'mvn sonar:sonar -Dsonar.host.url=http://13.48.5.188:9000/ -Dsonar.login=sqa_1cc77d7684c650a57741536d5f37774eadd293c2'
 		       
 	      }
       }
