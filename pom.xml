@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>org.sonarsource.scanner.maven</groupId>
 			<artifactId>sonar-maven-plugin</artifactId>
-			<version>3.2</version>
+			<version>4.0.0.4121</version>
 		</dependency>
 	</dependencies>
 
@@ -43,8 +43,8 @@
 			<activeByDefault>true</activeByDefault>
 		</activation>
 	<properties>
-		<sonar.host.url>http://65.0.71.19:9000</sonar.host.url>
-		<sonar.token>squ_c1183f3b46de647e8e6d67b92fb4bd7a773f9480</sonar.token>
+		<sonar.host.url>http://13.48.5.188:9000</sonar.host.url>
+		<sonar.token>squ_b00a46bfe0345df2fba6383ee87d706201ae0299</sonar.token>
 		<sonar.login>admin</sonar.login> 
 	</properties>
 </profile>
