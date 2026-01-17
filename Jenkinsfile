@@ -52,13 +52,13 @@ pipeline {
       }
     }
     //sonarque server
-   stage("SonarQube analysis") {
-	  steps {
+   //stage("SonarQube analysis") {
+	  //steps {
 		  
-	sh 'mvn sonar:sonar -Dsonar.host.url=http://13.60.166.52:9000/ -Dsonar.login=squ_151d965dd24544d5413fe22eda465a13f6ac447d'
+	//sh 'mvn sonar:sonar -Dsonar.host.url=http://13.60.166.52:9000/ -Dsonar.login=squ_151d965dd24544d5413fe22eda465a13f6ac447d'
 		       
-	      }
-    }
+	      //}
+    //}
 
    // Build docker image in Jenkins
 
