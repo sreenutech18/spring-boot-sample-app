@@ -1,5 +1,5 @@
 #Define your base image 
-FROM openjdk:8-jdk-alpine
+FROM eclipse-temurin:8-jdk-alpine
 
 #Maintainer of this image
 LABEL maintainer="Pradeep Kalidindi" 
