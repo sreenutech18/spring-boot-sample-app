@@ -6,7 +6,7 @@ pipeline {
   }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker_hub_credentials')
-    DEV_EC2_SERVER = '13.51.166.186'
+    DEV_EC2_SERVER = '13.60.166.52'
     DEV_EC2_USER = 'ec2-user'            
   }
 
@@ -52,20 +52,20 @@ pipeline {
       }
     }
     //sonarque server
-   // stage("SonarQube analysis") {
-	   // steps {
+   stage("SonarQube analysis") {
+	  steps {
 		  
-	//sh 'mvn sonar:sonar -Dsonar.host.url=http://13.51.166.186:9000/ -Dsonar.login=squ_fbbd16949416886c619cf778e1a2c6d8ff2abc8d'
+	sh 'mvn sonar:sonar -Dsonar.host.url=http://13.60.166.52:9000/ -Dsonar.login=squ_151d965dd24544d5413fe22eda465a13f6ac447d'
 		       
-	    //  }
-    //  }
+	      }
+    }
 
    // Build docker image in Jenkins
 
     stage('Prepare Image') {
 
       steps {
-        sh 'docker build -t spring-boot-sample-app:latest .'
+        sh 'docker build --no-cache -t spring-boot-sample-app:latest .'
         sh 'docker tag spring-boot-sample-app sreenivas18/spring-boot-sample-app:latest'
       
       }
