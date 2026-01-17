@@ -24,7 +24,7 @@ pipeline {
     }
     stage('Code Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/pradeep-kalidindi/spring-boot-sample-app.git'
+        git branch: 'main', url: 'https://github.com/sreenutech18/spring-boot-sample-app.git'
 
       }
     }
