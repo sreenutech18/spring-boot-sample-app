@@ -1,6 +1,6 @@
 #Define your base image 
 FROM eclipse-temurin:17-jdk-focal 
-
+ENV JAVA_TOOL_OPTIONS="-XX:-UsePerfData"
 #Maintainer of this image
 LABEL maintainer="Pradeep Kalidindi" 
 
