@@ -3,7 +3,7 @@ pipeline {
   tools { 
       maven 'M2_HOME' 
       jdk 'JAVA_HOME'
-      'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
+      
   }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker_hub_credentials')
