@@ -67,8 +67,8 @@ pipeline {
     stage('Build Docker Image') {
 
       steps {
-        sh 'docker build --no-cache -t javawebapp:latest .'
-        sh 'docker tag javawebapp sreenivas18/javawebapp:latest'
+        sh 'docker build -t java_webapp:latest .'
+        sh 'docker tag java_webapp sreenivas18/java_webapp:latest'
       }
     }
 
@@ -84,7 +84,7 @@ pipeline {
 
     stage('Push Image to dockerHUb') {
       steps {
-        sh 'docker push sreenivas18/javawebapp:latest'
+        sh 'docker push sreenivas18/java_webapp:latest'
       }
       post {
         always {
@@ -100,9 +100,9 @@ pipeline {
       steps {
         script {
           sshagent(credentials: ['awscred']) {
-          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop javawebapp || true && docker rm javawebapp || true'"
-      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/javawebapp'"
-          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name javawebapp -d -p 8081:8081 sreenivas18/javawebapp'"
+          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop java_webapp || true && docker rm java_webapp || true'"
+      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/java_webapp'"
+          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name java_webapp -d -p 8081:8081 sreenivas18/java_webapp'"
           }
         }
       }
