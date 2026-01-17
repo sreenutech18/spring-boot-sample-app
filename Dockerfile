@@ -1,5 +1,4 @@
 #Define your base image 
-#FROM eclipse-temurin:17-jdk-focal
 FROM FROM openjdk:8-jdk-alpine
 
 #Maintainer of this image
