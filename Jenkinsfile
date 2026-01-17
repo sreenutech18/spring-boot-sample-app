@@ -3,10 +3,11 @@ pipeline {
   tools { 
       maven 'M2_HOME' 
       jdk 'JAVA_HOME'
+      'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
   }
   environment {
     DOCKERHUB_CREDENTIALS = credentials('docker_hub_credentials')
-    DEV_EC2_SERVER = '13.60.166.52'
+    DEV_EC2_SERVER = '13.232.147.101'
     DEV_EC2_USER = 'ec2-user'            
   }
 
@@ -21,16 +22,16 @@ pipeline {
           ''' 
       }
     }
-    stage('Clone SoureCode') {
+    stage('Code Checkout') {
       steps {
-        git branch: 'main', url: 'https://github.com/sreenutech18/spring-boot-sample-app.git'
+        git branch: 'main', url: 'https://github.com/pradeep-kalidindi/spring-boot-sample-app.git'
 
       }
     }
 
    // Build Java application
 
-    stage('Build') {
+    stage('Maven Build') {
       steps {
         sh 'mvn clean install'
       }
@@ -46,28 +47,19 @@ pipeline {
 
   // Test Java application
 
-    stage('Unit Test') {
+    stage('Maven Test') {
       steps {
         sh 'mvn test'
       }
     }
-    //sonarque server
-   //stage("SonarQube analysis") {
-	  //steps {
-		  
-	//sh 'mvn sonar:sonar -Dsonar.host.url=http://13.60.166.52:9000/ -Dsonar.login=squ_151d965dd24544d5413fe22eda465a13f6ac447d'
-		       
-	      //}
-    //}
 
    // Build docker image in Jenkins
 
-    stage('Prepare Image') {
+    stage('Build Docker Image') {
 
       steps {
-        sh 'DOCKER_BUILDKIT=0 docker build --no-cache -t spring-boot-sample-app:latest .'
-        sh 'docker tag spring-boot-sample-app sreenivas18/spring-boot-sample-app:latest'
-      
+        sh 'docker build -t javawebapp:latest .'
+        sh 'docker tag javawebapp sreenivas18/javawebapp:latest'
       }
     }
 
@@ -83,7 +75,7 @@ pipeline {
 
     stage('Push Image to dockerHUb') {
       steps {
-        sh 'docker push sreenivas18/spring-boot-sample-app:latest'
+        sh 'docker push sreenivas18/javawebapp:latest'
       }
       post {
         always {
@@ -93,37 +85,16 @@ pipeline {
 
     }
 
-   // Pull docker image from DockerHub and run in EC2 instance (dev environment) 
+   // Pull docker image from DockerHub and run in EC2 instance 
 
-    stage('Dev Environment') {
+    stage('Deploy Docker image to DEV EC2') {
       steps {
         script {
           sshagent(credentials: ['awscred']) {
-          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop spring-boot-sample-app-dev || true && docker rm spring-boot-sample-app-dev || true'"
-      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/spring-boot-sample-app'"
-          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name spring-boot-sample-app-dev -d -p 8081:8081 sreenivas18/spring-boot-sample-app'"
+          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop javawebapp || true && docker rm javawebapp || true'"
+      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/javawebapp'"
+          sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name javawebapp -d -p 8081:8081 sreenivas18/javawebapp'"
           }
-        }
-      }
-    }
-    // Pull docker image from DockerHub and run in stage EC2 instance (test environment)
-      stage('Test Environment') {
-        
-      steps {
-       script {
-               def userInput = input(id: 'Proceed1', message: 'Promote build?', parameters: [[$class: 'BooleanParameterDefinition', defaultValue: true, description: '', name: 'Please confirm you agree with this']])
-               echo 'userInput: ' + userInput
-               if(userInput == true) {
-                    sshagent(credentials: ['awscred']) {
-                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker stop spring-boot-sample-app-test || true && docker rm spring-boot-sample-app-test || true'"
-                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker pull sreenivas18/spring-boot-sample-app'"
-                      sh "ssh -o StrictHostKeyChecking=no ${DEV_EC2_USER}@${DEV_EC2_SERVER} 'docker run --name spring-boot-sample-app-test -d -p 8082:8081 sreenivas18/spring-boot-sample-app'"
-                    }
-                } else {
-                    // not do action
-                 echo "Action was aborted."
-                }
-          
         }
       }
     }
