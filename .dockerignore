@@ -1,0 +1,4 @@
+tmp/
+hsperfdata_*
+*.log
+*.pid
