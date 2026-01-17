@@ -65,7 +65,7 @@ pipeline {
     stage('Prepare Image') {
 
       steps {
-        sh 'docker build --no-cache -t spring-boot-sample-app:latest .'
+        sh 'docker build -t spring-boot-sample-app:latest .'
         sh 'docker tag spring-boot-sample-app sreenivas18/spring-boot-sample-app:latest'
       
       }
